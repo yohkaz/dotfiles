@@ -25,8 +25,9 @@ colorscheme gruvbox
 nnoremap <leader>ff <cmd>Telescope find_files theme=get_dropdown<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep theme=get_dropdown<cr>
 nnoremap <leader>fb <cmd>Telescope buffers theme=get_dropdown<cr>
-nnoremap <leader>fd <cmd>Telescope lsp_document_diagnostics theme=get_dropdown<cr>
-nnoremap <leader>fl <cmd>Telescope lsp_workspace_diagnostics theme=get_dropdown<cr>
+nnoremap <leader>ld <cmd>Telescope lsp_document_diagnostics theme=get_dropdown<cr>
+nnoremap <leader>ll <cmd>Telescope lsp_workspace_diagnostics theme=get_dropdown<cr>
+nnoremap <leader>gl <cmd>Telescope git_status theme=get_dropdown<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " auto-complete
@@ -61,7 +62,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	buf_set_keymap('n', '<leader>ll', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	-- buf_set_keymap('n', '<leader>ll', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
 	-- Set some keybinds conditional on server capabilities
 	if client.resolved_capabilities.document_formatting then
@@ -97,5 +98,5 @@ EOF
 
 
 " vim-gitgutter
-nmap <leader>gl <Plug>(GitGutterNextHunk)
-nmap <leader>gk <Plug>(GitGutterPrevHunk)
+nmap <leader>gn <Plug>(GitGutterNextHunk)
+nmap <leader>gp <Plug>(GitGutterPrevHunk)
