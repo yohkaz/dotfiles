@@ -8,6 +8,9 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 
+" vim-gitgutter
+Plug 'airblade/vim-gitgutter'
+ 
 " Solarized theme
 Plug 'lifepillar/vim-solarized8'
 " Gruvbox theme
@@ -19,9 +22,9 @@ call plug#end()
 colorscheme gruvbox
 
 " Telescope remaps
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>ff <cmd>Telescope find_files theme=get_dropdown<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep theme=get_dropdown<cr>
+nnoremap <leader>fb <cmd>Telescope buffers theme=get_dropdown<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " auto-complete
@@ -83,8 +86,14 @@ end
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
 -- local servers = { "pyright", "rust_analyzer", "tsserver" }
-local servers = {"rust_analyzer"}
+local servers = {"rust_analyzer", "pyright"}
 for _, lsp in ipairs(servers) do
+    -- nvim_lsp[lsp].setup { on_attach = require'completion'.on_attach }
     nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 EOF
+
+
+" vim-gitgutter
+nmap <leader>gl <Plug>(GitGutterNextHunk)
+nmap <leader>gk <Plug>(GitGutterPrevHunk)

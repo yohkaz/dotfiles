@@ -1,7 +1,8 @@
 " Basic config
 set tabstop=4 softtabstop=4
+set shiftwidth=4
 set exrc
-"set relativenumber
+set relativenumber
 set nohlsearch
 set nu
 set hidden
@@ -13,6 +14,7 @@ set incsearch
 set scrolloff=8
 set signcolumn=yes
 set termguicolors
+set updatetime=50
 
 
 " Remaps
@@ -22,4 +24,3 @@ let mapleader = " "
 
 " Plugins
 source ~/.config/nvim/plugins.vim
-
