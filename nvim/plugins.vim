@@ -27,7 +27,7 @@ nnoremap <leader>fg <cmd>Telescope live_grep theme=get_dropdown<cr>
 nnoremap <leader>fb <cmd>Telescope buffers theme=get_dropdown<cr>
 nnoremap <leader>ld <cmd>Telescope lsp_document_diagnostics theme=get_dropdown<cr>
 nnoremap <leader>ll <cmd>Telescope lsp_workspace_diagnostics theme=get_dropdown<cr>
-nnoremap <leader>gl <cmd>Telescope git_status theme=get_dropdown<cr>
+nnoremap <leader>gf <cmd>Telescope git_status theme=get_dropdown<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " auto-complete
@@ -67,6 +67,7 @@ local on_attach = function(client, bufnr)
 	-- Set some keybinds conditional on server capabilities
 	if client.resolved_capabilities.document_formatting then
 	    buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+		vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 	elseif client.resolved_capabilities.document_range_formatting then
 	    buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
 	end
@@ -100,3 +101,6 @@ EOF
 " vim-gitgutter
 nmap <leader>gn <Plug>(GitGutterNextHunk)
 nmap <leader>gp <Plug>(GitGutterPrevHunk)
+nmap <leader>gs <Plug>(GitGutterStageHunk)
+nmap <leader>gd <Plug>(GitGutterPreviewHunk)
+nmap <leader>gl <cmd>GitGutterQuickFix \| copen<cr>
