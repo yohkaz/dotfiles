@@ -25,6 +25,8 @@ colorscheme gruvbox
 nnoremap <leader>ff <cmd>Telescope find_files theme=get_dropdown<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep theme=get_dropdown<cr>
 nnoremap <leader>fb <cmd>Telescope buffers theme=get_dropdown<cr>
+nnoremap <leader>fd <cmd>Telescope lsp_document_diagnostics theme=get_dropdown<cr>
+nnoremap <leader>fl <cmd>Telescope lsp_workspace_diagnostics theme=get_dropdown<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " auto-complete
