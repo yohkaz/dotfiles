@@ -23,15 +23,17 @@ colorscheme gruvbox
 
 " Telescope remaps
 nnoremap <leader>ff <cmd>Telescope find_files theme=get_dropdown<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep theme=get_dropdown<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers theme=get_dropdown<cr>
 nnoremap <leader>ld <cmd>Telescope lsp_document_diagnostics theme=get_dropdown<cr>
 nnoremap <leader>ll <cmd>Telescope lsp_workspace_diagnostics theme=get_dropdown<cr>
-nnoremap <leader>gf <cmd>Telescope git_status theme=get_dropdown<cr>
+" nnoremap <leader>gf <cmd>Telescope git_status theme=get_dropdown<cr>
+nnoremap <leader>gf <cmd>Telescope git_status<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " auto-complete
 set completeopt=menuone,noinsert,noselect
+"set completeopt=menuone,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " LSP Config
@@ -61,8 +63,8 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap('n', '<leader>lp', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	-- buf_set_keymap('n', '<leader>ll', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
 	-- Set some keybinds conditional on server capabilities
