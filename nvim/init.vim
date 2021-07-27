@@ -1,6 +1,8 @@
 " Basic config
 set tabstop=4 softtabstop=4
 set shiftwidth=4
+set smarttab
+set expandtab
 set exrc
 set relativenumber
 set nohlsearch
