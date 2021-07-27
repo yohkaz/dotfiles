@@ -39,8 +39,9 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 " LSP Config
 " lua require'lspconfig'.rust_analyzer.setup{on_attach=require'completion'.on_attach}
 " lua require'lspconfig'.rust_analyzer.setup{}
-autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+" autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
 
+" LSP + EFM
 lua << EOF
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
@@ -90,6 +91,7 @@ local on_attach = function(client, bufnr)
 	end
 end
 
+-- LSP
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
 -- local servers = { "pyright", "rust_analyzer", "tsserver" }
@@ -98,6 +100,23 @@ for _, lsp in ipairs(servers) do
     -- nvim_lsp[lsp].setup { on_attach = require'completion'.on_attach }
     nvim_lsp[lsp].setup { on_attach = on_attach }
 end
+
+-- EFM
+nvim_lsp.efm.setup {
+    init_options = {documentFormatting = true},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            -- lua = {
+            --     {formatCommand = "lua-format -i", formatStdin = true}
+            -- }
+            python = {
+                {formatCommand = "autopep8 -", formatStdin = true}
+            }
+        }
+    },
+	on_attach = on_attach
+}
 EOF
 
 
