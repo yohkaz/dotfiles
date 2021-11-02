@@ -71,7 +71,10 @@ local on_attach = function(client, bufnr)
 	-- Set some keybinds conditional on server capabilities
 	if client.resolved_capabilities.document_formatting then
 	    buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-		vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+		-- vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+		-- vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)]]
+		vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+		-- vim.api.nvim_command[[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()]]
 	elseif client.resolved_capabilities.document_range_formatting then
 	    buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
 	end
@@ -104,12 +107,16 @@ end
 -- EFM
 nvim_lsp.efm.setup {
     init_options = {documentFormatting = true},
+    filetypes = { 'rust', 'python' },
     settings = {
         rootMarkers = {".git/"},
         languages = {
             -- lua = {
             --     {formatCommand = "lua-format -i", formatStdin = true}
             -- }
+            rust = {
+                { formatCommand = "rustfmt", formatStdin = true }
+            },
             python = {
                 {formatCommand = "autopep8 -", formatStdin = true}
             }
