@@ -48,7 +48,7 @@ local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-	require'completion'.on_attach()
+	require'completion'.on_attach(client)
 
 	-- Mappings.
 	local opts = { noremap=true, silent=true }
@@ -98,11 +98,21 @@ end
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
 -- local servers = { "pyright", "rust_analyzer", "tsserver" }
-local servers = {"rust_analyzer", "pyright"}
-for _, lsp in ipairs(servers) do
-    -- nvim_lsp[lsp].setup { on_attach = require'completion'.on_attach }
-    nvim_lsp[lsp].setup { on_attach = on_attach }
-end
+local rust_analyzer_settings = {
+    ["rust-analyzer"] = {
+        checkOnSave = {
+            command = "clippy"
+        },
+    }
+}
+nvim_lsp.rust_analyzer.setup { on_attach = on_attach, settings = rust_analyzer_settings }
+nvim_lsp.pyright.setup { on_attach = on_attach }
+
+-- local servers = {"rust_analyzer", "pyright"}
+-- for _, lsp in ipairs(servers) do
+--     -- nvim_lsp[lsp].setup { on_attach = require'completion'.on_attach }
+--     nvim_lsp[lsp].setup { on_attach = on_attach }
+-- end
 
 -- EFM
 nvim_lsp.efm.setup {
