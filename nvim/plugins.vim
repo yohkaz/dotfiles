@@ -22,11 +22,12 @@ call plug#end()
 colorscheme gruvbox
 
 " Telescope remaps
-nnoremap <leader>ff <cmd>Telescope find_files theme=get_dropdown<cr>
+nnoremap <leader>ff <cmd>Telescope find_files prompt_prefix=🔍 theme=get_ivy<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers theme=get_dropdown<cr>
-nnoremap <leader>ld <cmd>Telescope lsp_document_diagnostics theme=get_dropdown<cr>
-nnoremap <leader>ll <cmd>Telescope lsp_workspace_diagnostics theme=get_dropdown<cr>
+nnoremap <leader>fb <cmd>Telescope buffers theme=get_ivy<cr>
+nnoremap <leader>fr <cmd>Telescope lsp_references theme=get_ivy<cr>
+nnoremap <leader>ld <cmd>Telescope lsp_document_diagnostics theme=get_ivy<cr>
+nnoremap <leader>ll <cmd>Telescope lsp_workspace_diagnostics theme=get_ivy<cr>
 " nnoremap <leader>gf <cmd>Telescope git_status theme=get_dropdown<cr>
 nnoremap <leader>gf <cmd>Telescope git_status<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
@@ -62,7 +63,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>lwl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
 	buf_set_keymap('n', '<leader>lD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 	buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	buf_set_keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.references', opts)
 	buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 	buf_set_keymap('n', '<leader>lp', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -107,6 +108,8 @@ local rust_analyzer_settings = {
 }
 nvim_lsp.rust_analyzer.setup { on_attach = on_attach, settings = rust_analyzer_settings }
 nvim_lsp.pyright.setup { on_attach = on_attach }
+nvim_lsp.tsserver.setup { on_attach = on_attach }
+nvim_lsp.clangd.setup { on_attach = on_attach }
 
 -- local servers = {"rust_analyzer", "pyright"}
 -- for _, lsp in ipairs(servers) do

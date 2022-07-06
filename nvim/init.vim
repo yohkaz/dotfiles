@@ -24,5 +24,8 @@ let mapleader = " "
 "nnoremap
 
 
+tnoremap <Esc> <C-\><C-n>
+
+
 " Plugins
 source ~/.config/nvim/plugins.vim
