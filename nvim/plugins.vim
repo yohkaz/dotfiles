@@ -6,7 +6,9 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " LSP + auto-complete
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'williamboman/mason.nvim'
 
 " vim-gitgutter
 Plug 'airblade/vim-gitgutter'
@@ -35,7 +37,6 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 " auto-complete
 set completeopt=menuone,noinsert,noselect
 "set completeopt=menuone,noselect
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " LSP Config
 " lua require'lspconfig'.rust_analyzer.setup{on_attach=require'completion'.on_attach}
@@ -44,12 +45,15 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " LSP + EFM
 lua << EOF
+require("mason").setup()
+EOF
+
+lua << EOF
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-	require'completion'.on_attach(client)
 
 	-- Mappings.
 	local opts = { noremap=true, silent=true }
@@ -64,9 +68,9 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>lD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 	buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<leader>lg', '<cmd>lua vim.lsp.buf.references', opts)
-	buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap('n', '<leader>lp', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap('n', '<leader>le', '<cmd>lua vim.diagnostic.open_float({scope="line"})<CR>', opts)
+	buf_set_keymap('n', '<leader>lp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 	-- buf_set_keymap('n', '<leader>ll', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
 	-- Set some keybinds conditional on server capabilities
@@ -95,6 +99,25 @@ local on_attach = function(client, bufnr)
 	end
 end
 
+-- Completion
+local cmp = require'cmp'
+cmp.setup({
+-- require'cmp'.setup {
+    mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        -- ['<C-Space>'] = cmp.mapping.complete(),
+        -- ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.close(),
+    }),
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' }
+    }),
+})
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 -- LSP
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
@@ -106,7 +129,7 @@ local rust_analyzer_settings = {
         },
     }
 }
-nvim_lsp.rust_analyzer.setup { on_attach = on_attach, settings = rust_analyzer_settings }
+nvim_lsp.rust_analyzer.setup { on_attach = on_attach, capabilities = capabilities, settings = rust_analyzer_settings }
 nvim_lsp.pyright.setup { on_attach = on_attach }
 nvim_lsp.tsserver.setup { on_attach = on_attach }
 nvim_lsp.clangd.setup { on_attach = on_attach }
