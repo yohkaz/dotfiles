@@ -1,0 +1,43 @@
+# Inserts a blank line between shell prompts
+add_newline = false
+
+# No line-break between shell prompts
+[line_break]
+disabled = true
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'
+
+[jobs]
+style = 'bold dimmed white'
+
+[hostname]
+ssh_only = false
+format = '[$hostname]($style) '
+style = 'bold dimmed white'
+disabled = true
+
+[username]
+style_user = 'bold dimmed white'
+style_root = 'bold dimmed white'
+format = '[$user]($style)[@]($style)'
+disabled = true
+show_always = true
+
+[package]
+disabled = true
+
+[cmd_duration]
+disabled = true
+
+[git_branch]
+format = '[git:\(](bold 62)[$branch]($style)'
+style = 'bold yellow'
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+
+[git_status]
+format = '( [$all_status$ahead_behind]($style))[\)](bold 62) '
+
