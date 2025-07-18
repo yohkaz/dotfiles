@@ -17,5 +17,5 @@ echo -n "install neovim config: "
 ln -sfv $DIR/nvim/ ~/.config/
 grep -qxF "source $DIR/shell/.bashrc" ~/.bashrc || (echo "install bash config: append 'source $DIR/shell/.bashrc' to '~/.bashrc'" && echo "source $DIR/shell/.bashrc" >> ~/.bashrc)
 echo ""
-echo "require to install also: 'ripgrep'(telescope plugin), 'npm' (tsserver), 'unzip' (clangd), 'python3-venv' (autopep8)"
+echo "require to install also: 'ripgrep'(telescope plugin), 'npm' (tsserver), 'unzip' (clangd)"
 echo "run 'source ~/.bashrc' and reload tmux, neovim to apply install"

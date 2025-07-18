@@ -15,7 +15,7 @@ local lsp_formatting = function(bufnr)
 end
 
 -- set up formatting on save, you can use this as a callback
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = false })
 
 -- add to your shared on_attach callback
 local on_attach = function(client, bufnr)
@@ -39,11 +39,11 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         "williamboman/mason.nvim",
-        "jose-elias-alvarez/null-ls.nvim",
+        "nvimtools/none-ls.nvim",
     },
     config = function()
         require("mason-null-ls").setup({
-            ensure_installed = { "autopep8" },
+            ensure_installed = { "ruff" },
             automatic_installation = false,
             handlers = {},
         })
